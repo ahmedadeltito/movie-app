@@ -1,4 +1,4 @@
-package com.talentsarena.ui.movie.list.di
+package com.talentsarena.ui.movie.list.servicelocator
 
 import android.content.Context
 import com.talentsarena.feature.movie.servicelocator.MovieDomainServiceLocator

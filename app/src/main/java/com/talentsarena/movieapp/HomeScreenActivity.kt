@@ -7,7 +7,7 @@ import com.talentsarena.movieapp.databinding.ActivityHomeScreenBinding
 import com.talentsarena.ui.movie.coordinator.MovieCoordinator
 import com.talentsarena.ui.movie.coordinator.MovieNavigator
 import com.talentsarena.ui.movie.list.MovieListFragment
-import com.talentsarena.ui.movie.list.di.MovieListFragmentServiceLocator
+import com.talentsarena.ui.movie.list.servicelocator.MovieListFragmentServiceLocator
 
 /**
  * Home screen that shows after [MainActivity] shows.

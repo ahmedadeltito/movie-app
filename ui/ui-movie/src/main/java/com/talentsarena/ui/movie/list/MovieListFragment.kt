@@ -11,7 +11,7 @@ import com.talentsarena.core.thread.DefaultTaskExecutor
 import com.talentsarena.ui.movie.coordinator.MovieCoordinator
 import com.talentsarena.ui.movie.coordinator.MovieNavigator
 import com.talentsarena.ui.movie.model.MovieUiModel
-import com.talentsarena.ui.movie.list.di.MovieListFragmentServiceLocator
+import com.talentsarena.ui.movie.list.servicelocator.MovieListFragmentServiceLocator
 import com.talentsarena.ui.movie.list.viewmodel.MovieListViewModel
 import com.talentsarena.ui.movie.list.viewmodel.MovieListViewModelFactory
 import com.talentsarena.ui.movie.databinding.FragmentMovieListBinding
