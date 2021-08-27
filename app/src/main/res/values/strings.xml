@@ -1,17 +1,3 @@
 <resources>
     <string name="app_name">Movie App</string>
-
-    <string name="more">More</string>
-    <string name="movies">Movies</string>
-    <string name="persons">Persons</string>
-    <string name="tvs">Tvs</string>
-    <string name="no_results">No results 😓</string>
-    <string name="home_title">Home</string>
-    <string name="movie_list_title">Movie List</string>
-    <string name="person_list_title">Person List</string>
-    <string name="tv_list_title">TV List</string>
-    <string name="recommendation_movies">Recommendation</string>
-    <string name="similar_movies">Similar</string>
-    <string name="language">Language : %s</string>
-    <string name="release_date">Release Date : %s</string>
 </resources>

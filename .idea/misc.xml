@@ -11,6 +11,11 @@
         <entry key="app/src/main/res/layout/fragment_movie_list.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/movie_list_item.xml" value="0.296195652173913" />
         <entry key="app/src/main/res/layout/movie_list_view.xml" value="0.296195652173913" />
+        <entry key="core/src/main/res/drawable/ic_launcher_background.xml" value="0.39351851851851855" />
+        <entry key="ui/ui-movie/src/main/res/drawable/ic_launcher_background.xml" value="0.39351851851851855" />
+        <entry key="ui/ui-movie/src/main/res/layout/fragment_movie_list.xml" value="0.29030797101449274" />
+        <entry key="ui/ui-movie/src/main/res/layout/movie_list_item.xml" value="0.29030797101449274" />
+        <entry key="ui/ui-movie/src/main/res/layout/movie_list_view.xml" value="0.29030797101449274" />
       </map>
     </option>
   </component>

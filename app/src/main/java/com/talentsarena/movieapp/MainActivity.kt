@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.appcompat.app.AppCompatActivity
 import com.talentsarena.movieapp.databinding.ActivityMainBinding
-import com.talentsarena.ui.HomeScreenActivity
 
 /**
  * Splash entry screen of our app.

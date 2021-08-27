@@ -39,6 +39,7 @@ object Libraries {
         const val coroutines = "1.5.1"
         const val lifecycleExtension = "2.2.0"
         const val lifecycle = "2.3.0"
+        const val activityKtx = "1.3.1"
         const val fragmentKtx = "1.3.6"
         const val okhttp = "4.9.1"
         const val okLog = "2.3.0"
@@ -70,6 +71,7 @@ object Libraries {
     const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
 
+    const val activityKtx = "androidx.activity:activity-ktx:${Versions.activityKtx}"
     const val fragmentKtx = "androidx.fragment:fragment-ktx:${Versions.fragmentKtx}"
 
     const val okhttp = "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
@@ -116,4 +118,11 @@ object TestLibraries {
 
 object InstrumentedTestDependencies {
     const val testRunner = "androidx.test.runner.AndroidJUnitRunner"
+}
+
+object Projects {
+    const val core = ":core"
+    const val dataSource = ":datasource"
+    const val movieFeature = ":feature:feature-movie"
+    const val movieUi = ":ui:ui-movie"
 }

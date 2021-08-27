@@ -2,11 +2,11 @@ plugins {
     id(BuildPlugins.androidApplication)
     id(BuildPlugins.kotlinKapt)
     kotlin(BuildPlugins.kotlinAndroid)
-    id("kotlin-android")
 }
 
 android {
     compileSdk = AndroidSdk.compile
+
     defaultConfig {
         applicationId = BuildPlugins.applicationId
         minSdk = AndroidSdk.min
@@ -14,6 +14,7 @@ android {
         versionCode = AndroidSdk.versionCode
         versionName = AndroidSdk.versionName
     }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
@@ -28,19 +29,25 @@ android {
             buildConfigField("String", "IMAGE_BASE_URL", "\"${Config.IMAGE_BASE_URL}\"")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = AndroidSdk.jvmTarget
     }
+
     buildFeatures {
         viewBinding = true
     }
 }
 
 dependencies {
+    implementation(project(Projects.movieUi))
+    implementation(project(Projects.core))
+
     implementation(Libraries.kotlinStdLib)
     implementation(Libraries.appCompat)
     implementation(Libraries.material)
