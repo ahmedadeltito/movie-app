@@ -36,11 +36,7 @@ class MovieListFragment : Fragment() {
     private val movieListAdapter = MovieListAdapter()
 
     private val movieListViewModel: MovieListViewModel by viewModels {
-        MovieListViewModelFactory(
-            apiKey = "fc47660226072874be57974ff797a0cd",
-            context = requireContext(),
-            executor = DefaultTaskExecutor()
-        )
+        MovieListViewModelFactory(context = requireContext())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

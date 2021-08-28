@@ -8,6 +8,7 @@ import com.talentsarena.core.api.ApiEmptyResponse
 import com.talentsarena.core.api.ApiErrorResponse
 import com.talentsarena.core.api.ApiResponse
 import com.talentsarena.core.api.ApiSuccessResponse
+import com.talentsarena.core.thread.DefaultTaskExecutor
 import com.talentsarena.core.thread.TaskExecutor
 import com.talentsarena.movieapp.MovieListFragment
 import com.talentsarena.movieapp.local.DatabaseManager
@@ -24,11 +25,7 @@ import com.talentsarena.movieapp.remote.model.mapToUiModel
  * View model for handling and dealing with [RetrofitClient] and [DatabaseManager].
  * This view model used in [MovieListFragment].
  */
-class MovieListViewModel(
-    apiKey: String,
-    context: Context,
-    private val executor: TaskExecutor
-) : ViewModel() {
+class MovieListViewModel(context: Context) : ViewModel() {
 
     private val _movieList = MutableLiveData<List<MovieUiModel>>()
     val movieList: LiveData<List<MovieUiModel>>
@@ -38,10 +35,12 @@ class MovieListViewModel(
     val errorMessage: LiveData<String>
         get() = _errorMessage
 
-    private val remote: MovieApiService = RetrofitClient(apiKey = apiKey)
+    private val remote: MovieApiService = RetrofitClient(apiKey = "fc47660226072874be57974ff797a0cd")
         .provideRetrofit()
         .create(MovieApiService::class.java)
     private val local: MovieDao = DatabaseManager.getInstance(context).movieDao()
+
+    private val executor: TaskExecutor = DefaultTaskExecutor()
 
     fun getMovies(pageNumber: Int) {
         try {
