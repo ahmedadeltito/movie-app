@@ -36,19 +36,19 @@ abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener
      */
     private val startingPageIndex = 1
 
-    private var mLayoutManager: RecyclerView.LayoutManager
+    private var layoutManager: RecyclerView.LayoutManager
 
     constructor(layoutManager: LinearLayoutManager) {
-        this.mLayoutManager = layoutManager
+        this.layoutManager = layoutManager
     }
 
     constructor(layoutManager: GridLayoutManager) {
-        this.mLayoutManager = layoutManager
+        this.layoutManager = layoutManager
         visibleThreshold *= layoutManager.spanCount
     }
 
     constructor(layoutManager: StaggeredGridLayoutManager) {
-        this.mLayoutManager = layoutManager
+        this.layoutManager = layoutManager
         visibleThreshold *= layoutManager.spanCount
     }
 
@@ -71,19 +71,19 @@ abstract class EndlessRecyclerViewScrollListener : RecyclerView.OnScrollListener
      */
     override fun onScrolled(view: RecyclerView, dx: Int, dy: Int) {
         var lastVisibleItemPosition = 0
-        val totalItemCount = mLayoutManager.itemCount
+        val totalItemCount = layoutManager.itemCount
 
-        when (mLayoutManager) {
+        when (layoutManager) {
             is StaggeredGridLayoutManager -> {
                 val lastVisibleItemPositions =
-                    (mLayoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null)
+                    (layoutManager as StaggeredGridLayoutManager).findLastVisibleItemPositions(null)
                 // get maximum element within the list
                 lastVisibleItemPosition = getLastVisibleItem(lastVisibleItemPositions)
             }
             is LinearLayoutManager -> lastVisibleItemPosition =
-                (mLayoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                (layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
             is GridLayoutManager -> lastVisibleItemPosition =
-                (mLayoutManager as GridLayoutManager).findLastVisibleItemPosition()
+                (layoutManager as GridLayoutManager).findLastVisibleItemPosition()
         }
 
         /**

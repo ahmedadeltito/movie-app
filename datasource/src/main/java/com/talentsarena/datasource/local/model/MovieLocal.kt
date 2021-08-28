@@ -69,3 +69,8 @@ fun MovieLocal.mapToDataSource(): MovieDataSource = MovieDataSource(
     isAdult = isAdult,
     voteCount = voteCount
 )
+
+/**
+ * Mapper to map list of [MovieLocal] to list of [MovieDataSource].
+ */
+fun List<MovieLocal>.mapToDataSource(): List<MovieDataSource> = map { it.mapToDataSource() }

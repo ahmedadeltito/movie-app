@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.talentsarena.core.extensions.gone
 import com.talentsarena.core.extensions.visible
 import com.talentsarena.core.extensions.visibleOrGone
+import com.talentsarena.core.ui.Rendering
 import com.talentsarena.core.widget.EndlessRecyclerViewScrollListener
 import com.talentsarena.ui.movie.databinding.MovieListViewBinding
 import com.talentsarena.ui.movie.list.adapter.MovieListAdapter
@@ -17,94 +19,73 @@ import com.talentsarena.ui.movie.model.MovieUiModel
 /**
  * Custom view that holds all the logic related to showing [MovieUiModel] in a list appearance.
  */
-class MovieListView @JvmOverloads constructor(
+internal class MovieListView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttrs: Int = 0,
     defStyleRes: Int = 0,
-) : FrameLayout(context, attrs, defStyleAttrs, defStyleRes) {
+) : FrameLayout(context, attrs, defStyleAttrs, defStyleRes), Rendering<MovieListRendering> {
 
     private val viewBinding: MovieListViewBinding = MovieListViewBinding.inflate(LayoutInflater.from(context), this)
 
-    private val movieListAdapter = MovieListAdapter()
+    private val adapter = MovieListAdapter()
 
-    private var getMovies: ((pageNumber: Int) -> Unit)? = null
-    private var onMovieClickListener: ((movieId: Int) -> Unit)? = null
+    private var rendering: MovieListRendering = MovieListRendering()
 
     init {
-        configUI()
-    }
-
-    private fun configUI() {
         with(viewBinding) {
-            val endlessRecyclerViewScrollListener = object : EndlessRecyclerViewScrollListener(
-                movieListView.layoutManager as LinearLayoutManager
-            ) {
-                override fun onLoadMore(page: Int, totalItemsCount: Int) {
-                    getMovies?.invoke(page)
-                }
+            movieListSrl.setOnRefreshListener {
+                rendering.onSwipeToRefresh.invoke()
             }
-            movieListView.apply {
+            with(movieListView) {
                 itemAnimator = DefaultItemAnimator()
                 setHasFixedSize(true)
-                adapter = movieListAdapter
+                adapter = this@MovieListView.adapter
+                addOnScrollListener(
+                    object : EndlessRecyclerViewScrollListener(movieListView.layoutManager as LinearLayoutManager) {
+                        override fun onLoadMore(page: Int, totalItemsCount: Int) {
+                            rendering.onNextMovieListPageSelected(page)
+                            movieListViewScrollTop.visible()
+                        }
+                    }
+                )
             }
-
-            movieListSrl.setOnRefreshListener {
-                endlessRecyclerViewScrollListener.resetState()
-                getMovies?.invoke(1)
+            movieListViewScrollTop.setOnClickListener {
+                movieListView.smoothScrollToPosition(0)
             }
-
-            movieListView.addOnScrollListener(endlessRecyclerViewScrollListener)
-
-            movieListAdapter.onMovieClickListener = { movieId ->
-                onMovieClickListener?.invoke(movieId)
-            }
-        }
-    }
-
-    fun addCallbacks(getMovies: (Int) -> Unit, onMovieClickListener: (Int) -> Unit) {
-        this.getMovies = getMovies
-        this.onMovieClickListener = onMovieClickListener
-    }
-
-    fun showLoading(isLoading: Boolean, isFirstPage: Boolean) {
-        with(viewBinding) {
-            if (isFirstPage) {
-                movieListSrl.post {
-                    movieListSrl.isRefreshing = isLoading
-                }
-            } else {
-                loadMorePb.post {
-                    loadMorePb.visibleOrGone(show = isLoading)
+            with(adapter) {
+                stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+                onMovieClickListener = { movieId ->
+                    rendering.onMovieItemSelected(movieId)
                 }
             }
         }
     }
 
-    fun showMovies(movies: List<MovieUiModel>) {
+    override fun render(renderingUpdate: (MovieListRendering) -> MovieListRendering) {
+        rendering = renderingUpdate(rendering)
+
         with(viewBinding) {
-            loadMorePb.gone()
-            emptyListTv.gone()
-            movieListView.visible()
+            movieListSrl.post {
+                movieListSrl.isRefreshing = rendering.state.isSwipeToRefreshLoading
+            }
+            loadMorePb.post {
+                loadMorePb.visibleOrGone(show = rendering.state.isPaginationLoading)
+            }
 
-            movieListAdapter.submitList(movies)
+            val movieList = rendering.state.movieList
+            if (movieList.isNotEmpty()) {
+                emptyListTv.gone()
+                movieListView.visible()
+                adapter.submitList(movieList)
+            }
+
+            val errorMessage = rendering.state.errorMessage
+            if (errorMessage?.isNotEmpty() == true) {
+                emptyListTv.visible()
+                movieListView.gone()
+                emptyListTv.text = errorMessage
+            }
         }
-    }
-
-    fun showErrorMessage(message: String?) {
-        with(viewBinding) {
-            loadMorePb.gone()
-            emptyListTv.visible()
-            movieListView.gone()
-
-            emptyListTv.text = message
-        }
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        getMovies = null
-        onMovieClickListener = null
     }
 }

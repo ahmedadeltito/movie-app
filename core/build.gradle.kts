@@ -1,6 +1,5 @@
 plugins {
     id(BuildPlugins.androidLibrary)
-    id(BuildPlugins.kotlinKapt)
     kotlin(BuildPlugins.kotlinAndroid)
 }
 
@@ -38,12 +37,13 @@ android {
 }
 
 dependencies {
-    api(Libraries.kotlinStdLib)
-    api(Libraries.appCompat)
-    api(Libraries.ktxCore)
+    implementation(Libraries.kotlinStdLib)
+    implementation(Libraries.appCompat)
+    implementation(Libraries.ktxCore)
 
-    api(Libraries.activityKtx)
-    api(Libraries.fragmentKtx)
+    implementation(Libraries.activityKtx)
+
+    implementation(Libraries.coroutinesCore)
 
     implementation(Libraries.recyclerView)
 

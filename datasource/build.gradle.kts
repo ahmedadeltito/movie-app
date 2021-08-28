@@ -46,6 +46,8 @@ dependencies {
 
     debugImplementation(Libraries.okLog)
 
+    implementation(Libraries.coroutinesCore)
+
     implementation(Libraries.retrofit)
     implementation(Libraries.retrofitMoshi)
 

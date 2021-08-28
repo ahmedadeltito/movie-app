@@ -45,8 +45,8 @@ android {
 }
 
 dependencies {
-    implementation(project(Projects.movieUi))
     implementation(project(Projects.core))
+    implementation(project(Projects.movieUi))
 
     implementation(Libraries.kotlinStdLib)
     implementation(Libraries.appCompat)
@@ -54,32 +54,5 @@ dependencies {
     implementation(Libraries.ktxCore)
     implementation(Libraries.constraintLayout)
 
-    implementation(Libraries.swipeRefreshLayout)
-    implementation(Libraries.recyclerView)
-    implementation(Libraries.cardView)
-
-    implementation(Libraries.lifecycleExtension)
-    implementation(Libraries.lifecycleViewModel)
-    implementation(Libraries.lifecycleRuntime)
-
-    implementation(Libraries.fragmentKtx)
-
-    implementation(Libraries.okLog)
-    implementation(Libraries.timber)
-
-    implementation(Libraries.retrofit)
-    implementation(Libraries.retrofitMoshi)
-
-    implementation(Libraries.okhttp)
-    implementation(Libraries.okhttpUrlConnection)
-    implementation(Libraries.okhttpLoggingInterceptor)
-
-    api(Libraries.roomRuntime)
-    api(Libraries.roomKtx)
-    kapt(Libraries.roomKapt)
-
-    implementation(Libraries.moshiKotlin)
-    kapt(Libraries.moshiKotlinCodeGen)
-
-    implementation(Libraries.coil)
+    implementation(Libraries.coroutinesCore)
 }

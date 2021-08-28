@@ -24,8 +24,8 @@
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher_background"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_baseline_image" />
 
         <TextView
             android:id="@+id/movie_title_tv"

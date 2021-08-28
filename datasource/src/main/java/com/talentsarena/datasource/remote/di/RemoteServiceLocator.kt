@@ -8,7 +8,5 @@ import retrofit2.Retrofit
  */
 object RemoteServiceLocator {
 
-    fun getRetrofit(apiKey: String): Retrofit {
-        return RetrofitClient(apiKey = apiKey).provideRetrofit()
-    }
+    fun getRetrofit(apiKey: String): Retrofit = RetrofitClient(apiKey = apiKey).provideRetrofit()
 }

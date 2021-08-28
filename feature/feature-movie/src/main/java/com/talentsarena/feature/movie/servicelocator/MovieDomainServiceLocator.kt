@@ -3,7 +3,7 @@ package com.talentsarena.feature.movie.servicelocator
 import android.content.Context
 import com.talentsarena.datasource.local.dao.MovieDao
 import com.talentsarena.datasource.local.di.LocalServiceLocator
-import com.talentsarena.datasource.remote.client.MovieApiService
+import com.talentsarena.feature.movie.apiservice.MovieApiService
 import com.talentsarena.datasource.remote.di.RemoteServiceLocator
 import com.talentsarena.feature.movie.repository.MovieRepository
 import com.talentsarena.feature.movie.repository.MovieRepositoryImpl
@@ -19,7 +19,7 @@ object MovieDomainServiceLocator {
 
     private fun getMovieLocal(context: Context): MovieDao = LocalServiceLocator.getMovieDao(context = context)
 
-    fun getMovieRepository(
+    private fun getMovieRepository(
         apiKey: String,
         context: Context
     ): MovieRepository =

@@ -1,67 +1,54 @@
 package com.talentsarena.feature.movie.repository
 
-import com.talentsarena.core.api.ApiEmptyResponse
-import com.talentsarena.core.api.ApiErrorResponse
-import com.talentsarena.core.api.ApiResponse
-import com.talentsarena.core.api.ApiSuccessResponse
 import com.talentsarena.datasource.local.dao.MovieDao
 import com.talentsarena.datasource.local.model.mapToDataSource
 import com.talentsarena.datasource.model.MovieDataSource
-import com.talentsarena.datasource.remote.client.MovieApiService
-import com.talentsarena.datasource.remote.model.MovieListRemote
-import com.talentsarena.datasource.remote.model.MovieRemote
 import com.talentsarena.datasource.remote.model.mapToDataSource
 import com.talentsarena.datasource.remote.model.mapToLocal
+import com.talentsarena.feature.movie.apiservice.MovieApiService
+import com.talentsarena.feature.movie.model.GetMovieRequest
+import com.talentsarena.feature.movie.model.GetMoviesRequest
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 /**
  * Implementer class for [MovieRepository]
  */
-class MovieRepositoryImpl(
+internal class MovieRepositoryImpl(
     private val remote: MovieApiService,
     private val local: MovieDao
 ) : MovieRepository {
 
-    override fun getMovies(pageNumber: Int, success: (List<MovieDataSource>) -> Unit, apiError: (String) -> Unit) {
-        val localMovies = local.movies
-        if (localMovies?.isNotEmpty() == true) {
-            success.invoke(localMovies.map { it.mapToDataSource() })
+    override suspend fun getMovies(getMoviesRequest: GetMoviesRequest): Flow<List<MovieDataSource>> = flow {
+        val localMovies = local.getMovies()
+        if (localMovies?.isNotEmpty() == true && getMoviesRequest.pageNumber == 1) {
+            emit(value = localMovies.mapToDataSource())
         }
-        val remoteMovies = remote.getMovies(pageNumber = pageNumber).execute()
-        when (val apiResponse = ApiResponse.create<MovieListRemote>(remoteMovies)) {
-            is ApiSuccessResponse -> {
-                if (apiResponse.body.movies?.isNotEmpty() == true) {
-                    if (pageNumber == 1) {
-                        local.insertMovies(apiResponse.body.movies!!.mapToLocal())
-                    }
-                    success.invoke(apiResponse.body.movies!!.mapToDataSource())
+        val remoteMovies = remote.getMovies(pageNumber = getMoviesRequest.pageNumber).movies
+        if (remoteMovies?.isNotEmpty() == true) {
+            val remoteMoviesToLocal = remoteMovies.mapToLocal()
+            if (localMovies != null && !localMovies.containsAll(remoteMoviesToLocal)) {
+                if (getMoviesRequest.pageNumber == 1) {
+                    local.insertMovies(movies = remoteMovies.mapToLocal())
                 }
-            }
-            is ApiEmptyResponse -> {
-                success.invoke(emptyList())
-            }
-            is ApiErrorResponse -> {
-                apiError.invoke(apiResponse.errorMessage)
+                emit(value = remoteMovies.mapToDataSource())
             }
         }
     }
 
-    override fun getMovie(movieId: Int, success: (MovieDataSource) -> Unit, apiError: (String) -> Unit) {
-        val localMovie = local.getMovie(movieId = movieId)
-        if (localMovie != null) {
-            success.invoke(localMovie.mapToDataSource())
+    override suspend fun getMovie(getMovieRequest: GetMovieRequest): Flow<MovieDataSource> = flow {
+        val localMovie = local.getMovie(movieId = getMovieRequest.movieId)
+        val localDataSource = localMovie?.mapToDataSource()
+        if (localDataSource != null) {
+            emit(value = localDataSource)
         }
-        val remoteMovie = remote.getMovie(movieId = movieId).execute()
-        when (val apiResponse = ApiResponse.create<MovieRemote>(remoteMovie)) {
-            is ApiSuccessResponse -> {
-                local.insertMovie(apiResponse.body.mapToLocal())
-                success.invoke(apiResponse.body.mapToDataSource())
-            }
-            is ApiEmptyResponse -> {
-                success.invoke(MovieRemote(id = -1).mapToDataSource())
-            }
-            is ApiErrorResponse -> {
-                apiError.invoke(apiResponse.errorMessage)
-            }
+
+        val remoteMovie = remote.getMovie(movieId = getMovieRequest.movieId)
+        val remoteDataSource = remoteMovie.mapToDataSource()
+
+        if (localDataSource != remoteDataSource) {
+            local.insertMovie(remoteMovie.mapToLocal())
+            emit(value = remoteDataSource)
         }
     }
 }

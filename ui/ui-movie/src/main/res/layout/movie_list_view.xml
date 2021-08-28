@@ -30,6 +30,18 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/movie_list_view_scroll_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:src="@drawable/ic_baseline_arrow_circle_up"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:ignore="ContentDescription"
+            tools:visibility="visible" />
+
         <TextView
             android:id="@+id/empty_list_tv"
             android:layout_width="0dp"

@@ -2,10 +2,12 @@ package com.talentsarena.ui.movie.list.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.talentsarena.ui.movie.BuildConfig
+import com.talentsarena.ui.movie.R
 import com.talentsarena.ui.movie.databinding.MovieListItemBinding
 import com.talentsarena.ui.movie.model.MovieUiModel
 
@@ -34,7 +36,10 @@ class MovieListAdapter :
         fun bind(movie: MovieUiModel, onMovieClickListener: ((movieId: Int) -> Unit)?) {
             binding.movieTitleTv.text = movie.title
             binding.movieDescTv.text = movie.overview
-            binding.movieImageIv.load(uri = BuildConfig.IMAGE_BASE_URL + movie.posterPath)
+            binding.movieImageIv.load(uri = BuildConfig.IMAGE_BASE_URL + movie.posterPath) {
+                placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.ic_baseline_image))
+                crossfade(enable = true)
+            }
             itemView.setOnClickListener {
                 onMovieClickListener?.invoke(movie.id)
             }

@@ -13,7 +13,6 @@ object MovieListFragmentServiceLocator {
 
     fun getCoordinator(navigator: MovieNavigator): MovieCoordinator = MovieCoordinator(navigator)
 
-    fun getMovieUseCase(apiKey: String, context: Context): MovieUseCase {
-        return MovieDomainServiceLocator.getMovieUseCase(apiKey = apiKey, context = context)
-    }
+    fun getMovieUseCase(apiKey: String, context: Context): MovieUseCase =
+        MovieDomainServiceLocator.getMovieUseCase(apiKey = apiKey, context = context)
 }

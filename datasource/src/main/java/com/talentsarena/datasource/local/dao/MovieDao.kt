@@ -11,15 +11,15 @@ import com.talentsarena.datasource.local.model.MovieLocal
  */
 @Dao
 interface MovieDao {
-    @get:Query("SELECT * FROM movie ORDER BY title ASC")
-    val movies: List<MovieLocal>?
+    @Query("SELECT * FROM movie ORDER BY title ASC")
+    suspend fun getMovies(): List<MovieLocal>?
 
     @Query("SELECT * FROM movie WHERE id = :movieId")
-    fun getMovie(movieId: Int): MovieLocal?
+    suspend fun getMovie(movieId: Int): MovieLocal?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovies(movies: List<MovieLocal>)
+    suspend fun insertMovies(movies: List<MovieLocal>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovie(movie: MovieLocal)
+    suspend fun insertMovie(movie: MovieLocal)
 }

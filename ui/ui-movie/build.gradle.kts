@@ -18,11 +18,13 @@ android {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             buildConfigField("String", "IMAGE_BASE_URL", "\"${Config.IMAGE_BASE_URL}\"")
+            buildConfigField("String", "API_KEY", "\"${Config.API_KEY}\"")
         }
         getByName("debug") {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             buildConfigField("String", "IMAGE_BASE_URL", "\"${Config.IMAGE_BASE_URL}\"")
+            buildConfigField("String", "API_KEY", "\"${Config.API_KEY}\"")
         }
     }
 
@@ -49,6 +51,12 @@ dependencies {
     implementation(Libraries.recyclerView)
     implementation(Libraries.swipeRefreshLayout)
     implementation(Libraries.cardView)
+
+    implementation(Libraries.fragmentKtx)
+
+    implementation(Libraries.lifecycleExtension)
+    implementation(Libraries.lifecycleViewModel)
+    implementation(Libraries.lifecycleRuntime)
 
     implementation(Libraries.coil)
 

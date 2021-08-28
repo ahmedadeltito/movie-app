@@ -43,7 +43,6 @@ object Libraries {
         const val fragmentKtx = "1.3.6"
         const val okhttp = "4.9.1"
         const val okLog = "2.3.0"
-        const val timber = "5.0.1"
         const val retrofit = "2.9.0"
         const val moshi = "1.12.0"
         const val room = "2.2.5"
@@ -67,6 +66,8 @@ object Libraries {
 
     const val ktxCore = "androidx.core:core-ktx:${Versions.ktx}"
 
+    const val coroutinesCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+
     const val lifecycleExtension = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycleExtension}"
     const val lifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycle}"
@@ -79,7 +80,6 @@ object Libraries {
     const val okhttpLoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
 
     const val okLog = "com.github.simonpercic:oklog3:${Versions.okLog}"
-    const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
 
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     const val retrofitMoshi = "com.squareup.retrofit2:converter-moshi:${Versions.retrofit}"

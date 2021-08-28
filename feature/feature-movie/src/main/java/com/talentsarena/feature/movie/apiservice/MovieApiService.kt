@@ -1,8 +1,7 @@
-package com.talentsarena.datasource.remote.client
+package com.talentsarena.feature.movie.apiservice
 
 import com.talentsarena.datasource.remote.model.MovieListRemote
 import com.talentsarena.datasource.remote.model.MovieRemote
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -13,8 +12,8 @@ import retrofit2.http.Query
 interface MovieApiService {
 
     @GET("movie/popular")
-    fun getMovies(@Query("page") pageNumber: Int?): Call<MovieListRemote>
+    suspend fun getMovies(@Query("page") pageNumber: Int?): MovieListRemote
 
     @GET("movie/{id}")
-    fun getMovie(@Path("id") movieId: Int?): Call<MovieRemote>
+    suspend fun getMovie(@Path("id") movieId: Int?): MovieRemote
 }
