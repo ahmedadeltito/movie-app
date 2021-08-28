@@ -24,14 +24,16 @@ class MovieRepositoryImpl(
 
     override fun getMovies(pageNumber: Int, success: (List<MovieDataSource>) -> Unit, apiError: (String) -> Unit) {
         val localMovies = local.movies
-        if (localMovies?.isNotEmpty() == true) {
+        if (localMovies?.isNotEmpty() == true && pageNumber == 1) {
             success.invoke(localMovies.map { it.mapToDataSource() })
         }
+
         val remoteMovies = remote.getMovies(pageNumber = pageNumber).execute()
         when (val apiResponse = ApiResponse.create<MovieListRemote>(remoteMovies)) {
             is ApiSuccessResponse -> {
                 if (apiResponse.body.movies?.isNotEmpty() == true) {
-                    if (pageNumber == 1) {
+                    val remoteMoviesToLocal = apiResponse.body.movies.mapToLocal()
+                    if (localMovies != null && !localMovies.containsAll(remoteMoviesToLocal) && pageNumber == 1) {
                         local.insertMovies(apiResponse.body.movies.mapToLocal())
                     }
                     success.invoke(apiResponse.body.movies.mapToDataSource())
