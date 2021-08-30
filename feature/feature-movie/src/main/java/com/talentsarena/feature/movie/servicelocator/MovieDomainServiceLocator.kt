@@ -19,7 +19,7 @@ object MovieDomainServiceLocator {
 
     private fun getMovieLocal(context: Context): MovieDao = LocalServiceLocator.getMovieDao(context = context)
 
-    fun getMovieRepository(
+    private fun getMovieRepository(
         apiKey: String,
         context: Context
     ): MovieRepository =
